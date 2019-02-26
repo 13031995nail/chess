@@ -7,6 +7,6 @@ from .models import Greeting
 def index(request):
     # return HttpResponse('Hello from Python!')
     return render(request, "index.html")
-def index1(request):
+def index1(request, hood):
     # return HttpResponse('Hello from Python!')
-    return HttpResponse('Hello')
+    return HttpResponse('Hello %s' % hood)
