@@ -14,5 +14,5 @@ import hello.views
 
 urlpatterns = [
     re_path("^$", hello.views.index, name="index"),
-    re_path('^/a$', hello.views.index1, name='index1'),
+    re_path('^/hello$', hello.views.index1, name='index1'),
 ]
