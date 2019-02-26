@@ -1,4 +1,4 @@
-from django.urls import path, include
+from django.urls import path, include, re_path
 
 from django.contrib import admin
 
@@ -15,4 +15,5 @@ import hello.views
 urlpatterns = [
     path("", hello.views.index, name="index"),
     path("admin/", admin.site.urls),
+    re_path(r'^/a$', views.index1, name='index1'),
 ]
