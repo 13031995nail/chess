@@ -13,7 +13,6 @@ import hello.views
 # Learn more here: https://docs.djangoproject.com/en/2.1/topics/http/urls/
 
 urlpatterns = [
-    path("", hello.views.index, name="index"),
-    path("admin/", admin.site.urls),
-    re_path(r'^/a$', hello.views.index1, name='index1'),
+    re_path("^$", hello.views.index, name="index"),
+    re_path('^/a$', hello.views.index1, name='index1'),
 ]
