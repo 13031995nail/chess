@@ -3,7 +3,7 @@ var map;
 var divSquare = '<div id="s$coord" class="square $color"></div>';
 var divFigure = '<div id="f$coord" class="figure">$figure</div>';
 var arr = ['a','b','c','d','e','f','g','h'];
-var doska = {{ board }};
+
 $(function(){
     start();
 });
@@ -11,8 +11,7 @@ $(function(){
 function start(){
     map = new Array(64);
     addSquares();
-	console.log(doska);
-    ShowBoard(doska);
+    ShowBoard('rnbqkbnrpppppppp11111111111111111111111111111111PPPPPPPPRNBQKBNR');
 }
 
 function SetDragSymbol(){
