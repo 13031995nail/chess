@@ -3,15 +3,17 @@ var map;
 var divSquare = '<div id="s$coord" class="square $color"></div>';
 var divFigure = '<div id="f$coord" class="figure">$figure</div>';
 var arr = ['a','b','c','d','e','f','g','h'];
+var doska
 
 $(function(){
+	doska = $('#doska').innerHTML
     start();
 });
 
 function start(){
     map = new Array(64);
     addSquares();
-    ShowBoard('rnbqkbnrpppppppp11111111111111111111111111111111PPPPPPPPRNBQKBNR');
+    ShowBoard(doska);
 }
 
 function SetDragSymbol(){
