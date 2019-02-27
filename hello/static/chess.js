@@ -11,7 +11,7 @@ $(function(){
 function start(){
     map = new Array(64);
     addSquares();
-    ShowBoard('rnbqkbnrpppppppp11111111111111111111111111111111PPPPPPPPRNBQKBNR');
+    ShowBoard({{ board }});
 }
 
 function SetDragSymbol(){

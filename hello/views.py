@@ -8,7 +8,7 @@ board = chess.Board()
 # Create your views here.
 def index(request):
     # return HttpResponse('Hello from Python!')
-    return render(request, "index.html")
+    return render(request, "index.html", {'board': 'rnbqkbnrpppppppp11111111111111111111111111111111PPPPPPPPRNBQKBNR'})
 def index1(request, move):
     board.push_san(move)
     mystr=board.fen()
@@ -19,4 +19,4 @@ def index1(request, move):
         for j in range(i):
             stroke += str(1)
         mystr = re.sub(str(i), stroke, mystr)
-    return HttpResponse(mystr)
+    return render(request, "index.html", {'board': mystr})
