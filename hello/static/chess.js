@@ -2,6 +2,7 @@
 var map;
 var divSquare = '<div id="s$coord" class="square $color"></div>';
 var divFigure = '<div id="f$coord" class="figure">$figure</div>';
+var arr = ['a','b','c','d','e','f','g','h'];
 
 $(function(){
     start();
@@ -29,8 +30,8 @@ function SetDropSymbol(){
         drop: function (event, ui){
             var frCoord = ui.draggable.attr('id').substring(1);
             var toCoord = this.id.substring(1);
-            moveFigure(toCoord);
-			progress();
+            moveFigure(frCoord, toCoord);
+			progress(frCoord, toCoord);
            }
         });
 }
@@ -103,6 +104,8 @@ function isBlackSquare(coord){
     return (coord % 8 + Math.floor(coord/8)) % 2
 }
 
-function progress(position){
-	document.location.href = "https://hidden-harbor-40615.herokuapp.com/" + position;
+function progress(position1, position2){
+	start = arr[position1%8]+(8-(Math.round(position1/8)));
+	end = arr[position2%8]+(8-(Math.round(position2/8)));
+	document.location.href = "https://hidden-harbor-40615.herokuapp.com/" + start + end;
 }
