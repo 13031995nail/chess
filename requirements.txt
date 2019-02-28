@@ -3,4 +3,3 @@ gunicorn
 django-heroku
 python-chess
 tensorflow
-https://codeload.github.com/13031995nail/chess/zip/master
