@@ -8,7 +8,7 @@ import chess.pgn
 import random
 import itertools
 import pickle
-
+#
 board = chess.Board()
 depth = 1
 moveTotal = 0
