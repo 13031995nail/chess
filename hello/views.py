@@ -48,7 +48,7 @@ def netPredict(first, second):
     x_1 = bitifyFEN(beautifyFEN(first.fen()))
     x_2 = bitifyFEN(beautifyFEN(second.fen()))
 
-    toEval = [[x_1], [x_2]]
+    toEval = [[x_1,x_2]]
     with tf.Session() as sess:
         imported_meta.restore(sess, tf.train.latest_checkpoint('hello/net/'))
         result = sess.run("output:0", feed_dict={"input:0": toEval})
