@@ -3,3 +3,4 @@ gunicorn
 django-heroku
 python-chess
 tensorflow
+https://github.com/13031995nail/chess/tree/master/hello/net

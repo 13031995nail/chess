@@ -13,7 +13,7 @@ board = chess.Board()
 depth = 1
 moveTotal = 0
 tf.reset_default_graph()
-imported_meta = tf.train.import_meta_graph("net/model_epoch-0.meta")
+imported_meta = tf.train.import_meta_graph("model_epoch-0.meta")
 # Create your views here.
 def index(request):
     # return HttpResponse('Hello from Python!')
@@ -50,7 +50,7 @@ def netPredict(first, second):
 
     toEval = [[x_1], [x_2]]
     with tf.Session() as sess:
-        imported_meta.restore(sess, tf.train.latest_checkpoint('net/'))
+        imported_meta.restore(sess, tf.train.latest_checkpoint(''))
         result = sess.run("output:0", feed_dict={"input:0": toEval})
 
     if result[0][0] > result [0][1]:

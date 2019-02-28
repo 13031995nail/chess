@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d2e26054-dc69-4e9e-ad96-e5b2434a4bf2" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/hello/templates/net/checkpoint" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hello/templates/net/model_epoch-0.data-00000-of-00001" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hello/templates/net/model_epoch-0.index" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hello/templates/net/model_epoch-0.meta" beforeDir="false" />
-    </list>
+    <list default="true" id="d2e26054-dc69-4e9e-ad96-e5b2434a4bf2" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
