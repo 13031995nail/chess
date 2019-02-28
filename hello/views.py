@@ -3,20 +3,114 @@ from django.http import HttpResponse
 import chess
 from .models import Greeting
 import re
+import copy
+from util import *
+import tensorflow as tf
 
 board = chess.Board()
+depth = 1
+moveTotal = 0
+tf.reset_default_graph()
+imported_meta = tf.train.import_meta_graph("net/model_epoch-0.meta")
 # Create your views here.
 def index(request):
     # return HttpResponse('Hello from Python!')
     return render(request, "index.html", {'board': 'rnbqkbnrpppppppp11111111111111111111111111111111PPPPPPPPRNBQKBNR'})
 def index1(request, move):
-    board.push_san(move)
-    mystr=board.fen()
-    mystr=mystr[:mystr.find(" ")]
-    mystr = re.sub(r"[/]", "", mystr)
-    for i in range(2,9,1):
-        stroke = ""
-        for j in range(i):
-            stroke += str(1)
-        mystr = re.sub(str(i), stroke, mystr)
+    if moveTotal % 2 == 1:
+        board.push_san(move)
+        mystr=board.fen()
+        mystr=mystr[:mystr.find(" ")]
+        mystr = re.sub(r"[/]", "", mystr)
+        for i in range(2,9,1):
+            stroke = ""
+            for j in range(i):
+                stroke += str(1)
+            mystr = re.sub(str(i), stroke, mystr)
+    else:
+        mystr = computerMove(board, depth).fen()
+        mystr = mystr[:mystr.find(" ")]
+        mystr = re.sub(r"[/]", "", mystr)
+        for i in range(2, 9, 1):
+            stroke = ""
+            for j in range(i):
+                stroke += str(1)
+            mystr = re.sub(str(i), stroke, mystr)
+    moveTotal = moveTotal + 1
     return render(request, "index.html", {'board': mystr})
+
+def netPredict(first, second):
+    global imported_meta
+
+    x_1 = bitifyFEN(beautifyFEN(first.fen()))
+    x_2 = bitifyFEN(beautifyFEN(second.fen()))
+
+    toEval = [[x_1], [x_2]]
+    with tf.Session() as sess:
+        imported_meta.restore(sess, tf.train.latest_checkpoint('net/'))
+        result = sess.run("output:0", feed_dict={"input:0": toEval})
+
+    if result[0][0] > result [0][1]:
+        return (first, second)
+    else:
+        return (second, first)
+
+def alphabeta(node, depth, alpha, beta, maximizingPlayer):
+    if depth == 0:
+        return node
+    if maximizingPlayer:
+        v = -1
+        for move in node.legal_moves:
+            cur = copy.copy(node)
+            cur.push(move)
+            if v == -1:
+                v = alphabeta(cur, depth-1, alpha, beta, False)
+            if alpha == -1:
+                alpha = v
+
+            v = netPredict(v, alphabeta(cur, depth-1, alpha, beta, False))[0]
+            alpha = netPredict(alpha, v)[0]
+            if beta != 1:
+                if netPredict(alpha, beta)[0] == alpha:
+                    break
+        return v
+    else:
+        # если глубина больше 1
+        v = 1
+        for move in node.legal_moves:
+            cur = copy.copy(node)
+            cur.push(move)
+            if v == 1:
+                v = alphabeta(cur, depth-1, alpha, beta, True)
+            if beta == 1:
+                beta = v
+
+            v = netPredict(v, alphabeta(cur, depth-1, alpha, beta, True))[1]
+            beta = netPredict(beta, v)[1]
+            if alpha != -1:
+                if netPredict(alpha, beta)[0] == alpha:
+                    break
+        return v
+
+def computerMove(board, depth):
+    alpha = -1
+    beta = 1
+    v = -1
+    # board.legal_moves - все возможные ходы из данного расположения фигур на доске (сеть играет белыми)
+    for move in board.legal_moves:
+        cur = copy.copy(board)
+        cur.push(move)
+        if v == -1:
+            v = alphabeta(cur, depth-1, alpha, beta, False)
+            bestMove = move
+            if alpha == -1:
+                alpha = v
+        else:
+            new_v = netPredict(alphabeta(cur, depth-1, alpha, beta, False), v)[0]
+            if new_v != v:
+                bestMove = move
+                v = new_v
+            alpha = netPredict(alpha, v)[0]
+
+    board.push(bestMove)
+    return board
