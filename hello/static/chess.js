@@ -110,6 +110,6 @@ function progress(position1, position2){
 	end = arr[position2%8]+(8-(Math.floor(position2/8)));
 	document.location.href = "https://hidden-harbor-40615.herokuapp.com/" + end;
 }
-function start_game(){
-	document.location.href = "https://hidden-harbor-40615.herokuapp.com/start";
-}
+//function start_game(){
+//	document.location.href = "https://hidden-harbor-40615.herokuapp.com/start";
+//}
