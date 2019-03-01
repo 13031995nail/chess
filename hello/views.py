@@ -20,6 +20,7 @@ def index(request):
     return render(request, "index.html", {'board': 'rnbqkbnrpppppppp11111111111111111111111111111111PPPPPPPPRNBQKBNR'})
 def index1(request, move):
     global moveTotal
+	print(moveTotal)
     if moveTotal % 2 == 1:
         board.push_san(move)
         mystr=board.fen()
