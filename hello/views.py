@@ -20,8 +20,9 @@ def index(request):
     return render(request, "index.html", {'board': 'rnbqkbnrpppppppp11111111111111111111111111111111PPPPPPPPRNBQKBNR'})
 def index1(request, move):
     global moveTotal
-	print(moveTotal)
+    print(moveTotal)
     if moveTotal % 2 == 1:
+        print('humman')
         board.push_san(move)
         mystr=board.fen()
         mystr=mystr[:mystr.find(" ")]
@@ -32,6 +33,7 @@ def index1(request, move):
                 stroke += str(1)
             mystr = re.sub(str(i), stroke, mystr)
     else:
+        print('comp')
         mystr = computerMove(board, depth).fen()
         mystr = mystr[:mystr.find(" ")]
         mystr = re.sub(r"[/]", "", mystr)
