@@ -121,6 +121,8 @@ function start_game(){
 		url: 'test',
 		success: function(data){
 					console.log(data);
+					text = data.getElementById("doska").text();
+					console.log(text);
 				}
 	});
 	//document.location.href = "https://hidden-harbor-40615.herokuapp.com/start";
