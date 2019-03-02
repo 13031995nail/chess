@@ -122,7 +122,7 @@ function start_game(){
 		success: function(data){
 					number = data.indexOf('<div id="doska" style="display:none">');
 					data = data.stringOne.slice(number+37, number+101);
-					console.log(typeof(data));
+					console.log(data);
 				}
 	});
 	//document.location.href = "https://hidden-harbor-40615.herokuapp.com/start";
