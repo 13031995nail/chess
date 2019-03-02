@@ -119,6 +119,7 @@ function start_game(){
     $.ajax({
 	    type: "POST",
 		url: '/start',
+		data: 'nail',
 	});
 	//document.location.href = "https://hidden-harbor-40615.herokuapp.com/start";
 }
