@@ -120,6 +120,8 @@ function start_game(){
 	    type: "POST",
 		url: 'test',
 		success: function(data){
+					number = data.indexOf('<div id="doska" style="display:none">');
+					data = data.stringOne.slice(number+37, number+101);
 					console.log(typeof(data));
 				}
 	});
