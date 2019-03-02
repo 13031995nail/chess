@@ -22,7 +22,7 @@ def index(request):
     # return HttpResponse('Hello from Python!')
     return render(request, "index.html", {'board': 'rnbqkbnrpppppppp11111111111111111111111111111111PPPPPPPPRNBQKBNR'})
 @csrf_exempt
-def index1(request):
+def index1(request,move):
 
     #  global moveTotal
     #  if moveTotal % 2 == 1:
