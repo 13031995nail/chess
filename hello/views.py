@@ -1,5 +1,6 @@
 from django.shortcuts import render
 import chess
+from django.views.decorators.csrf import csrf_exempt
 import re
 import copy
 import tensorflow as tf
@@ -15,13 +16,15 @@ moveTotal = 0
 tf.reset_default_graph()
 imported_meta = tf.train.import_meta_graph("hello/net/model_epoch-0.meta")
 # Create your views here.
+@csrf_exempt
 def index(request):
     # return HttpResponse('Hello from Python!')
     return render(request, "index.html", {'board': 'rnbqkbnrpppppppp11111111111111111111111111111111PPPPPPPPRNBQKBNR'})
-def index1(request, move):
+@csrf_exempt
+def index1(request):
     global moveTotal
     if moveTotal % 2 == 1:
-        board.push_san(move)
+        board.push_san(request.POST.values())
         mystr=board.fen()
         mystr=mystr[:mystr.find(" ")]
         mystr = re.sub(r"[/]", "", mystr)
