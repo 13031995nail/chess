@@ -112,7 +112,7 @@ function progress(position1, position2){
 //    type: "POST",
 //    url: 'test',
 //    data:{nail:end}
-//});
+//});/
 	//document.location.href = "https://hidden-harbor-40615.herokuapp.com/" + end;
 }
 function start_game(){
