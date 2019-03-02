@@ -22,7 +22,7 @@ def index(request):
     # return HttpResponse('Hello from Python!')
     return render(request, "index.html", {'board': 'rnbqkbnrpppppppp11111111111111111111111111111111PPPPPPPPRNBQKBNR'})
 @csrf_exempt
-def index1(request,move):
+def index1(request):
 
     #  global moveTotal
     #  if moveTotal % 2 == 1:
@@ -46,7 +46,7 @@ def index1(request,move):
     #          mystr = re.sub(str(i), stroke, mystr)
     #  moveTotal = moveTotal + 1
     # return render(request, "index.html", {'board': mystr})
-    return HttpResponse(request.POST.values()[0])
+    return HttpResponse(request.POST.values())
 
 def netPredict(first, second):
     global imported_meta
