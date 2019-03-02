@@ -24,7 +24,7 @@ def index(request):
 def index1(request):
     global moveTotal
     if moveTotal % 2 == 1:
-        board.push_san(request.POST.values())
+        board.push_san(request.POST.values()[0])
         mystr=board.fen()
         mystr=mystr[:mystr.find(" ")]
         mystr = re.sub(r"[/]", "", mystr)

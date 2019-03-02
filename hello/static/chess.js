@@ -111,7 +111,7 @@ function progress(position1, position2){
     $.ajax({
         type: "POST",
   	    url: '/test',
-  	    data: end,
+  	    data:{nail:end}
     });
 	//document.location.href = "https://hidden-harbor-40615.herokuapp.com/" + end;
 }
@@ -119,7 +119,6 @@ function start_game(){
     $.ajax({
 	    type: "POST",
 		url: '/start',
-		data: 'nail',
 	});
 	//document.location.href = "https://hidden-harbor-40615.herokuapp.com/start";
 }
