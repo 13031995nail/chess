@@ -23,30 +23,28 @@ def index(request):
     return render(request, "index.html", {'board': 'rnbqkbnrpppppppp11111111111111111111111111111111PPPPPPPPRNBQKBNR'})
 @csrf_exempt
 def index1(request):
-
-    #  global moveTotal
-    #  if moveTotal % 2 == 1:
-    #      board.push_san(request.POST.values()[0])
-    #      mystr=board.fen()
-    #      mystr=mystr[:mystr.find(" ")]
-    #      mystr = re.sub(r"[/]", "", mystr)
-    #      for i in range(2,9,1):
-    #          stroke = ""
-    #          for j in range(i):
-    #              stroke += str(1)
-    #          mystr = re.sub(str(i), stroke, mystr)
-    #  else:
-    #      mystr = computerMove(board, depth).fen()
-    #      mystr = mystr[:mystr.find(" ")]
-    #      mystr = re.sub(r"[/]", "", mystr)
-    #      for i in range(2, 9, 1):
-    #          stroke = ""
-    #          for j in range(i):
-    #              stroke += str(1)
-    #          mystr = re.sub(str(i), stroke, mystr)
-    #  moveTotal = moveTotal + 1
-    # return render(request, "index.html", {'board': mystr})
-    return render(request, "index.html", {'board': 'rnbqkbnrpppppppp11111111111111111111111111111111PPPPPPPPRNBQKBNR'})
+      global moveTotal
+      if moveTotal % 2 == 1:
+          board.push_san(request.POST.values()[0])
+          mystr=board.fen()
+          mystr=mystr[:mystr.find(" ")]
+          mystr = re.sub(r"[/]", "", mystr)
+          for i in range(2,9,1):
+              stroke = ""
+              for j in range(i):
+                  stroke += str(1)
+              mystr = re.sub(str(i), stroke, mystr)
+      else:
+          mystr = computerMove(board, depth).fen()
+          mystr = mystr[:mystr.find(" ")]
+          mystr = re.sub(r"[/]", "", mystr)
+          for i in range(2, 9, 1):
+              stroke = ""
+              for j in range(i):
+                  stroke += str(1)
+              mystr = re.sub(str(i), stroke, mystr)
+      moveTotal = moveTotal + 1
+      return render(request, "index.html", {'board': mystr})
 
 def netPredict(first, second):
     global imported_meta
