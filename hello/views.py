@@ -46,7 +46,7 @@ def index1(request):
     #          mystr = re.sub(str(i), stroke, mystr)
     #  moveTotal = moveTotal + 1
     # return render(request, "index.html", {'board': mystr})
-    return HttpResponse(request.POST.values())
+    return render(request, "index.html", {'board': 'rnbqkbnrpppppppp11111111111111111111111111111111PPPPPPPPRNBQKBNR'})
 
 def netPredict(first, second):
     global imported_meta
