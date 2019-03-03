@@ -6,10 +6,7 @@ import copy
 import tensorflow as tf
 import numpy as np
 import chess.pgn
-import random
-import itertools
-import pickle
-import math
+
 N_INPUT =769
 N_OUT = 2
 x = tf.placeholder(tf.float32, shape=[None, 2, N_INPUT], name="input")
@@ -22,10 +19,8 @@ moveTotal = 0
 #tf.reset_default_graph()
 #imported_meta = tf.train.import_meta_graph("hello/net/model_epoch-0.meta")
 # Create your views here.
-#@csrf_exempt
 def index(request):
     return render(request, "index.html", {'board': 'rnbqkbnrpppppppp11111111111111111111111111111111PPPPPPPPRNBQKBNR'})
-#@csrf_exempt
 #def index1(request, move):
 #      global moveTotal
 #      if moveTotal % 2 == 1:
