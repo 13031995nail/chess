@@ -9,10 +9,10 @@ import chess.pgn
 
 N_INPUT =769
 N_OUT = 2
-x = tf.placeholder(tf.float32, shape=[None, 2, N_INPUT], name="input")
-init = tf.global_variables_initializer()
+#x = tf.placeholder(tf.float32, shape=[None, 2, N_INPUT], name="input")
+#init = tf.global_variables_initializer()
 # для сохранения переменных
-saver = tf.train.Saver()
+#saver = tf.train.Saver()
 board = chess.Board()
 depth = 1
 moveTotal = 0
