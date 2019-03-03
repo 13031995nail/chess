@@ -297,5 +297,5 @@ def index(request):
 #    'b3' : bias_variable(HIDDEN_4),
 #    'out' : bias_variable(N_OUT)
 #}
-#
+##
 #y = model(x, weights, biases)
