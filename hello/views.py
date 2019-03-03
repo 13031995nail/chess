@@ -10,16 +10,21 @@ import chess.pgn
 import random
 import itertools
 import pickle
-
+import math
+N_INPUT =769
+N_OUT = 2
+x = tf.placeholder(tf.float32, shape=[None, 2, N_INPUT], name="input")
+init = tf.global_variables_initializer()
+# для сохранения переменных
+saver = tf.train.Saver()
 board = chess.Board()
 depth = 1
 moveTotal = 0
-tf.reset_default_graph()
-imported_meta = tf.train.import_meta_graph("hello/net/model_epoch-0.meta")
+#tf.reset_default_graph()
+#imported_meta = tf.train.import_meta_graph("hello/net/model_epoch-0.meta")
 # Create your views here.
 @csrf_exempt
 def index(request):
-    # return HttpResponse('Hello from Python!')
     return render(request, "index.html", {'board': 'rnbqkbnrpppppppp11111111111111111111111111111111PPPPPPPPRNBQKBNR'})
 @csrf_exempt
 def index1(request):
@@ -47,20 +52,70 @@ def index1(request):
       return render(request, "index.html", {'board': mystr})
 
 def netPredict(first, second):
-    global imported_meta
-
+    # global imported_meta
+    global init
     x_1 = bitifyFEN(beautifyFEN(first.fen()))
     x_2 = bitifyFEN(beautifyFEN(second.fen()))
 
     toEval = [[x_1,x_2]]
     with tf.Session() as sess:
-        imported_meta.restore(sess, tf.train.latest_checkpoint('hello/net/'))
-        result = sess.run("output:0", feed_dict={"input:0": toEval})
+        sess.run(init)
+        saver.restore(sess, 'hello/net/model_epoch-0')
+        result = sess.run(y, feed_dict={x: toEval})
 
     if result[0][0] > result [0][1]:
         return (first, second)
     else:
         return (second, first)
+
+def fully_connected(current_layer, weight, bias):
+    next_layer = tf.add(tf.matmul(current_layer, weight), bias)
+    next_layer = tf.maximum(0.01*next_layer, next_layer)
+    return next_layer
+
+# кодирование ходов в признаки
+def encode(c, weights, biases, level):
+    e1 = fully_connected(c, weights['e1'], biases['e1'])
+    if level == 1:
+        return e1
+
+    e2 = fully_connected(e1, weights['e2'], biases['e2'])
+    if level == 2:
+        return e2
+
+    e3 = fully_connected(e2, weights['e3'], biases['e3'])
+    if level == 3:
+        return e3
+
+    e4 = fully_connected(e3, weights['e4'], biases['e4'])
+    return e4
+
+def model(games, weights, biases):
+    first_board = games[:,0,:]
+    second_board = games[:,1,:]
+
+    # [None, 769] -> [None, 600] -> [None, 400] -> [None, 200] -> [None, 100]
+    firstboard_encoding = encode(first_board, weights, biases, 4)
+    secondboard_encoding = encode(second_board, weights, biases, 4)
+
+    # [None, 200] -> [None, 400] -> [None, 200] -> [None, 100] -> [None, 2]
+    h_1 = tf.concat([firstboard_encoding,secondboard_encoding], 1)
+    h_2 = fully_connected(h_1, weights['w1'], biases['b1'])
+    h_3 = fully_connected(h_2, weights['w2'], biases['b2'])
+    h_4 = fully_connected(h_3, weights['w3'], biases['b3'])
+
+    pred = tf.add(tf.matmul(h_4, weights['w4']), biases['out'], name="output")
+    return pred
+
+def weight_variable(n_in, n_out):
+    cur_dev = math.sqrt(3.0/(n_in+n_out))
+    initial = tf.truncated_normal([n_in, n_out], stddev=cur_dev)
+    return tf.Variable(initial)
+
+# инициализировать смещения постоянным значением BIAS
+def bias_variable(n_out):
+    initial = tf.constant(0.15, shape=[n_out])
+    return tf.Variable(initial)
 
 def alphabeta(node, depth, alpha, beta, maximizingPlayer):
     if depth == 0:
@@ -209,3 +264,44 @@ def bitifyFEN(f):  # f - одномерный массив целых чисел
         result.append(0)
 
     return result  # одномерный массив из 0 и 1 размера 769
+ENCODING_1 = 600
+ENCODING_2 = 400
+ENCODING_3 = 200
+ENCODING_4 = 100
+
+HIDDEN_1 = 200
+HIDDEN_2 = 400
+HIDDEN_3 = 200
+HIDDEN_4 = 100
+weights = {
+    'e1' : weight_variable(N_INPUT, ENCODING_1),
+    'e2' : weight_variable(ENCODING_1, ENCODING_2),
+    'e3' : weight_variable(ENCODING_2, ENCODING_3),
+    'e4' : weight_variable(ENCODING_3, ENCODING_4),
+    'd1' : weight_variable(ENCODING_4, ENCODING_3),
+    'd2' : weight_variable(ENCODING_3, ENCODING_2),
+    'd3' : weight_variable(ENCODING_2, ENCODING_1),
+    'd4' : weight_variable(ENCODING_1, N_INPUT),
+    'w1' : weight_variable(HIDDEN_1, HIDDEN_2),
+    'w2' : weight_variable(HIDDEN_2, HIDDEN_3),
+    'w3' : weight_variable(HIDDEN_3, HIDDEN_4),
+    'w4' : weight_variable(HIDDEN_4, N_OUT)
+}
+
+# залание всех смещений для сети
+biases = {
+    'e1' : bias_variable(ENCODING_1),
+    'e2' : bias_variable(ENCODING_2),
+    'e3' : bias_variable(ENCODING_3),
+    'e4' : bias_variable(ENCODING_4),
+    'd1' : bias_variable(ENCODING_3),
+    'd2' : bias_variable(ENCODING_2),
+    'd3' : bias_variable(ENCODING_1),
+    'd4' : bias_variable(N_INPUT),
+    'b1' : bias_variable(HIDDEN_2),
+    'b2' : bias_variable(HIDDEN_3),
+    'b3' : bias_variable(HIDDEN_4),
+    'out' : bias_variable(N_OUT)
+}
+
+y = model(x, weights, biases)
