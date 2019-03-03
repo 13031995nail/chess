@@ -23,14 +23,14 @@ moveTotal = 0
 #tf.reset_default_graph()
 #imported_meta = tf.train.import_meta_graph("hello/net/model_epoch-0.meta")
 # Create your views here.
-@csrf_exempt
+#@csrf_exempt
 def index(request):
     return render(request, "index.html", {'board': 'rnbqkbnrpppppppp11111111111111111111111111111111PPPPPPPPRNBQKBNR'})
-@csrf_exempt
-def index1(request):
+#@csrf_exempt
+def index1(request, move):
       global moveTotal
       if moveTotal % 2 == 1:
-          board.push_san(request.POST.values()[0])
+          board.push_san(move)
           mystr=board.fen()
           mystr=mystr[:mystr.find(" ")]
           mystr = re.sub(r"[/]", "", mystr)

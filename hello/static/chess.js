@@ -107,23 +107,23 @@ function isBlackSquare(coord){
 }
 
 function progress(position1, position2){
-////end = arr[position2%8]+(8-(Math.floor(position2/8)));
+    end = arr[position2%8]+(8-(Math.floor(position2/8)));
 //$.ajax({
 //    type: "POST",
 //    url: 'test',
 //    data:{nail:end}
 //});/
-	//document.location.href = "https://hidden-harbor-40615.herokuapp.com/" + end;
+	document.location.href = "https://hidden-harbor-40615.herokuapp.com/" + end;
 }
 function start_game(){
-    $.ajax({
-	    type: "POST",
-		url: 'test',
-		success: function(data){
-					number = data.indexOf('<div id="doska" style="display:none">');
-					data = data.stringOne.slice(number+37, number+101);
-					console.log(data);
-				}
-	});
-	//document.location.href = "https://hidden-harbor-40615.herokuapp.com/start";
+   //$.ajax({
+   //    type: "POST",
+   //	url: 'test',
+   //	success: function(data){
+   //				number = data.indexOf('<div id="doska" style="display:none">');
+   //				data = data.stringOne.slice(number+37, number+101);
+   //				console.log(data);
+   //			}
+   //});
+	document.location.href = "https://hidden-harbor-40615.herokuapp.com/start";
 }
