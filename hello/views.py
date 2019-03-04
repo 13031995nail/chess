@@ -9,13 +9,16 @@ import chess.pgn
 import itertools
 import math
 
-board = chess.Board()
-moveTotal = 0
+moves = []
+#moveTotal = 0
 
 def index(request):
     return render(request, "index.html", {'board': 'rnbqkbnrpppppppp11111111111111111111111111111111PPPPPPPPRNBQKBNR'})
 
 def index1(request, move):
+    board = chess.Board()
+    for i in moves:
+        board.push_san(i)
     global moveTotal
     depth = 1
 ##    if moveTotal % 2 == 1:
@@ -28,6 +31,7 @@ def index1(request, move):
         for j in range(i):
             stroke += str(1)
         mystr = re.sub(str(i), stroke, mystr)
+    moves.append(move)
 #   else:
 #       mystr = computerMove(board, depth).fen()
 #       mystr = mystr[:mystr.find(" ")]
