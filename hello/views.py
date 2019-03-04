@@ -42,8 +42,7 @@ def index1(request, move):
 #               stroke += str(1)
 #           mystr = re.sub(str(i), stroke, mystr)
 #   moveTotal = moveTotal + 1
-    return render(request, "index.html", {'board': mystr})
-
+    return render(request, "index.html", {'board': mystr, 'move': moves})
 
 def netPredict(first, second):
     x_1 = bitifyFEN(beautifyFEN(first.fen()))
