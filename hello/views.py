@@ -9,32 +9,33 @@ import chess.pgn
 
 N_INPUT =769
 N_OUT = 2
-#x = tf.placeholder(tf.float32, shape=[None, 2, N_INPUT], name="input")
+
 #init = tf.global_variables_initializer()
 # для сохранения переменных
 #saver = tf.train.Saver()
 board = chess.Board()
-depth = 1
 moveTotal = 0
 #tf.reset_default_graph()
 #imported_meta = tf.train.import_meta_graph("hello/net/model_epoch-0.meta")
 # Create your views here.
 def index(request):
     return render(request, "index.html", {'board': 'rnbqkbnrpppppppp11111111111111111111111111111111PPPPPPPPRNBQKBNR'})
-#def index1(request, move):
-#      global moveTotal
-#      if moveTotal % 2 == 1:
-#          board.push_san(move)
-#          mystr=board.fen()
-#          mystr=mystr[:mystr.find(" ")]
-#          mystr = re.sub(r"[/]", "", mystr)
-#          for i in range(2,9,1):
-#              stroke = ""
-#              for j in range(i):
-#                  stroke += str(1)
-#              mystr = re.sub(str(i), stroke, mystr)
-#      else:
-#          mystr = computerMove(board, depth).fen()
+def index1(request, move):
+    global moveTotal
+    depth = 1
+    x = tf.placeholder(tf.float32, shape=[None, 2, N_INPUT], name="input")
+#    if moveTotal % 2 == 1:
+#        board.push_san(move)
+#        mystr = board.fen()
+#        mystr = mystr[:mystr.find(" ")]
+#        mystr = re.sub(r"[/]", "", mystr)
+#        for i in range(2,9,1):
+#            stroke = ""
+#            for j in range(i):
+#                stroke += str(1)
+#            mystr = re.sub(str(i), stroke, mystr)
+#        else:
+#            mystr = computerMove(board, depth).fen()
 #          mystr = mystr[:mystr.find(" ")]
 #          mystr = re.sub(r"[/]", "", mystr)
 #          for i in range(2, 9, 1):
@@ -44,6 +45,7 @@ def index(request):
 #              mystr = re.sub(str(i), stroke, mystr)
 #      moveTotal = moveTotal + 1
 #      return render(request, "index.html", {'board': mystr})
+    return render(request, "index.html", {'board': 'rnbqkbnrppppppp1p1111111111111111111111111111111PPPPPPPPRNBQKBNR'})
 #
 #def netPredict(first, second):
 #    # global imported_meta
