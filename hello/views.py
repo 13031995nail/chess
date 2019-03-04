@@ -54,7 +54,7 @@ def netPredict(first, second):
         sess.run(init_op)
         saver.restore(sess, 'hello/net/model_epoch-0')
         result = sess.run(y, feed_dict={x: toEval})
-#
+
     if result[0][0] > result [0][1]:
         return (first, second)
     else:
