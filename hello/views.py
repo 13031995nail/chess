@@ -46,12 +46,12 @@ def netPredict(first, second):
 
     x = tf.placeholder(tf.float32, shape=[None, 2, N_INPUT], name="input")
     y = model(x, weights, biases)
-    init = tf.global_variables_initializer()
+    init_op = tf.global_variables_initializer()
     saver = tf.train.Saver()
 
     toEval = [[x_1,x_2]]
     with tf.Session() as sess:
-        sess.run(init)
+        sess.run(init_op)
         saver.restore(sess, 'hello/net/model_epoch-0')
         result = sess.run(y, feed_dict={x: toEval})
 
