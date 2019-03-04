@@ -18,26 +18,26 @@ def index(request):
 def index1(request, move):
     global moveTotal
     depth = 1
-    if moveTotal % 2 == 1:
-        board.push_san(move)
-        mystr = board.fen()
-        mystr = mystr[:mystr.find(" ")]
-        mystr = re.sub(r"[/]", "", mystr)
-        for i in range(2,9,1):
-            stroke = ""
-            for j in range(i):
-                stroke += str(1)
-            mystr = re.sub(str(i), stroke, mystr)
-    else:
-        mystr = computerMove(board, depth).fen()
-        mystr = mystr[:mystr.find(" ")]
-        mystr = re.sub(r"[/]", "", mystr)
-        for i in range(2, 9, 1):
-            stroke = ""
-            for j in range(i):
-                stroke += str(1)
-            mystr = re.sub(str(i), stroke, mystr)
-    moveTotal = moveTotal + 1
+#    if moveTotal % 2 == 1:
+    board.push_san(move)
+    mystr = board.fen()
+    mystr = mystr[:mystr.find(" ")]
+    mystr = re.sub(r"[/]", "", mystr)
+    for i in range(2,9,1):
+        stroke = ""
+        for j in range(i):
+            stroke += str(1)
+        mystr = re.sub(str(i), stroke, mystr)
+#   else:
+#       mystr = computerMove(board, depth).fen()
+#       mystr = mystr[:mystr.find(" ")]
+#       mystr = re.sub(r"[/]", "", mystr)
+#       for i in range(2, 9, 1):
+#           stroke = ""
+#           for j in range(i):
+#               stroke += str(1)
+#           mystr = re.sub(str(i), stroke, mystr)
+#   moveTotal = moveTotal + 1
     return render(request, "index.html", {'board': mystr})
 
 
@@ -46,7 +46,7 @@ def netPredict(first, second):
     x_2 = bitifyFEN(beautifyFEN(second.fen()))
 
     global x, y, init, saver
-    
+
     toEval = [[x_1,x_2]]
     with tf.Session() as sess:
         sess.run(init_op)
