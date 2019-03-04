@@ -28,10 +28,6 @@ def index1(request, move):
                 stroke += str(1)
             mystr = re.sub(str(i), stroke, mystr)
     else:
-        x = tf.placeholder(tf.float32, shape=[None, 2, N_INPUT], name="input")
-        y = model(x, weights, biases)
-        init = tf.global_variables_initializer()
-        saver = tf.train.Saver()
         mystr = computerMove(board, depth).fen()
         mystr = mystr[:mystr.find(" ")]
         mystr = re.sub(r"[/]", "", mystr)
@@ -48,10 +44,10 @@ def netPredict(first, second):
     x_1 = bitifyFEN(beautifyFEN(first.fen()))
     x_2 = bitifyFEN(beautifyFEN(second.fen()))
 
-    global init
-    global saver
-    global x
-    global y
+    x = tf.placeholder(tf.float32, shape=[None, 2, N_INPUT], name="input")
+    y = model(x, weights, biases)
+    init = tf.global_variables_initializer()
+    saver = tf.train.Saver()
 
     toEval = [[x_1,x_2]]
     with tf.Session() as sess:
