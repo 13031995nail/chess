@@ -21,7 +21,7 @@ def index1(request, move):
         board.push_san(i)
     global moveTotal
     depth = 1
-#    if moveTotal % 2 == 1:
+##    if moveTotal % 2 == 1:
     board.push_san(move)
     mystr = board.fen()
     mystr = mystr[:mystr.find(" ")]
