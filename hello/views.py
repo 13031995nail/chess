@@ -14,6 +14,7 @@ moveTotal = 0
 
 def index(request):
     return render(request, "index.html", {'board': 'rnbqkbnrpppppppp11111111111111111111111111111111PPPPPPPPRNBQKBNR'})
+
 def index1(request, move):
     global moveTotal
     depth = 1
@@ -44,11 +45,8 @@ def netPredict(first, second):
     x_1 = bitifyFEN(beautifyFEN(first.fen()))
     x_2 = bitifyFEN(beautifyFEN(second.fen()))
 
-    x = tf.placeholder(tf.float32, shape=[None, 2, N_INPUT], name="input")
-    y = model(x, weights, biases)
-    init_op = tf.global_variables_initializer()
-    saver = tf.train.Saver()
-
+    global x, y, init, saver
+    
     toEval = [[x_1,x_2]]
     with tf.Session() as sess:
         sess.run(init_op)
@@ -295,3 +293,7 @@ biases = {
     'out': bias_variable(N_OUT)
 }
 
+x = tf.placeholder(tf.float32, shape=[None, 2, N_INPUT], name="input")
+y = model(x, weights, biases)
+init_op = tf.global_variables_initializer()
+saver = tf.train.Saver()
