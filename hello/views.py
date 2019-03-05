@@ -40,7 +40,7 @@ def index1(request, move):
             stroke += str(1)
         mystr = re.sub(str(i), stroke, mystr)
     moves.append(move)
-    moveTotal = moveTotal + 1
+    moveTotal = int(moveTotal) + 1
 #   else:
 #       mystr = computerMove(board, depth).fen()
 #       mystr = mystr[:mystr.find(" ")]
