@@ -24,7 +24,7 @@ def index1(request, move):
 #    depth = 1
 #    if moveTotal % 2 == 1:
     move_new = chess.Move.from_uci(move)
-    board.push_san(move_new)
+    board.push(move_new)
     mystr = board.fen()
     mystr = mystr[:mystr.find(" ")]
     mystr = re.sub(r"[/]", "", mystr)
