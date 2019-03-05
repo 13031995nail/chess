@@ -9,7 +9,6 @@ import chess.pgn
 import itertools
 import math
 import json
-import hello.util
 
 #moveTotal = 0
 
@@ -20,8 +19,10 @@ def index1(request, move):
     board = chess.Board()
 
     with open("hello/moves.json", "r") as read_file:
-        moves = json.load(read_file)["moves"]
-        moveTotal = json.load(read_file)["moveTotal"]
+        data = json.load(read_file)
+
+    moves = data["moves"]
+    moveTotal = data["moveTotal"]
 
     for i in moves:
         move_star = chess.Move.from_uci(i)
@@ -40,7 +41,7 @@ def index1(request, move):
             stroke += str(1)
         mystr = re.sub(str(i), stroke, mystr)
     moves.append(move)
-    moveTotal = int(moveTotal) + 1
+    moveTotal = moveTotal + 1
 #   else:
 #       mystr = computerMove(board, depth).fen()
 #       mystr = mystr[:mystr.find(" ")]
