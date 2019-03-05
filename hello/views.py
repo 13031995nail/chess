@@ -8,16 +8,20 @@ import numpy as np
 import chess.pgn
 import itertools
 import math
+import json
+import hello.util
 
-moves = []
 #moveTotal = 0
 
 def index(request):
     return render(request, "index.html", {'board': 'rnbqkbnrpppppppp11111111111111111111111111111111PPPPPPPPRNBQKBNR'})
 
 def index1(request, move):
-    global moves
     board = chess.Board()
+
+    with open("moves.json", "r") as read_file:
+        moves = json.load(read_file)["moves"]
+
     for i in moves:
         move_star = chess.Move.from_uci(i)
         board.push(move_star)
@@ -45,6 +49,11 @@ def index1(request, move):
 #               stroke += str(1)
 #           mystr = re.sub(str(i), stroke, mystr)
 #   moveTotal = moveTotal + 1
+    data = {
+        "moves": moves
+    }
+    with open("moves.json", "w") as write_file:
+        json.dump(data, write_file)
     return render(request, "index.html", {'board': mystr, 'move': moves})
 
 def netPredict(first, second):
