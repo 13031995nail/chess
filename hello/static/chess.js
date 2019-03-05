@@ -107,8 +107,9 @@ function isBlackSquare(coord){
 }
 
 function progress(position1, position2){
+    start = arr[position12%8]+(8-(Math.floor(position1/8)));
     end = arr[position2%8]+(8-(Math.floor(position2/8)));
-	document.location.href = "https://hidden-harbor-40615.herokuapp.com/" + end;
+	document.location.href = "https://hidden-harbor-40615.herokuapp.com/" + start + end;
 }
 function start_game(){
 	document.location.href = "https://hidden-harbor-40615.herokuapp.com/start";

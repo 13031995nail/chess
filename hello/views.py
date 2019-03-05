@@ -18,11 +18,13 @@ def index(request):
 def index1(request, move):
     board = chess.Board()
     for i in moves:
-        board.push_san(i)
+        move_star = chess.Move.from_uci(i)
+        board.push(move_star)
 #    global moveTotal
 #    depth = 1
 #    if moveTotal % 2 == 1:
-    board.push_san(move)
+    move_new = chess.Move.from_uci(move)
+    board.push_san(move_new)
     mystr = board.fen()
     mystr = mystr[:mystr.find(" ")]
     mystr = re.sub(r"[/]", "", mystr)
