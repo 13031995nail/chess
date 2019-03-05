@@ -21,6 +21,7 @@ def index1(request, move):
 
     with open("hello/moves.json", "r") as read_file:
         moves = json.load(read_file)["moves"]
+        moveTotal = json.load(read_file)["moveTotal"]
 
     for i in moves:
         move_star = chess.Move.from_uci(i)
@@ -39,6 +40,7 @@ def index1(request, move):
             stroke += str(1)
         mystr = re.sub(str(i), stroke, mystr)
     moves.append(move)
+    moveTotal = moveTotal + 1
 #   else:
 #       mystr = computerMove(board, depth).fen()
 #       mystr = mystr[:mystr.find(" ")]
@@ -50,11 +52,12 @@ def index1(request, move):
 #           mystr = re.sub(str(i), stroke, mystr)
 #   moveTotal = moveTotal + 1
     data = {
-        "moves": moves
+        "moves": moves,
+        "moveTotal": moveTotal
     }
     with open("hello/moves.json", "w") as write_file:
         json.dump(data, write_file)
-    return render(request, "index.html", {'board': mystr, 'move': moves})
+    return render(request, "index.html", {'board': mystr, 'move': moves, 'moveTotal': moveTotal})
 
 def netPredict(first, second):
     x_1 = bitifyFEN(beautifyFEN(first.fen()))
