@@ -19,8 +19,8 @@ def index1(request, move):
     board = chess.Board()
     for i in moves:
         board.push_san(i)
-    global moveTotal
-    depth = 1
+#    global moveTotal
+#    depth = 1
 #    if moveTotal % 2 == 1:
     board.push_san(move)
     mystr = board.fen()
