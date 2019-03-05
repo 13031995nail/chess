@@ -23,7 +23,7 @@ def index1(request, move):
         board.push(move_star)
 #    global moveTotal
 #    depth = 1
-#    if moveTotal % 2 == 1:
+##    if moveTotal % 2 == 1:
     move_new = chess.Move.from_uci(move)
     board.push(move_new)
     mystr = board.fen()
