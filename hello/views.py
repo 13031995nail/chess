@@ -1,6 +1,5 @@
 from django.shortcuts import render
 import chess
-from django.http import HttpResponse
 import re
 import copy
 import tensorflow as tf
@@ -9,8 +8,6 @@ import chess.pgn
 import itertools
 import math
 import json
-
-#moveTotal = 0
 
 def index(request):
     return render(request, "index.html", {'board': 'rnbqkbnrpppppppp11111111111111111111111111111111PPPPPPPPRNBQKBNR'})
@@ -27,31 +24,34 @@ def index1(request, move):
     for i in moves:
         move_star = chess.Move.from_uci(i)
         board.push(move_star)
-#    global moveTotal
-#    depth = 1
-##    if moveTotal % 2 == 1:
-    move_new = chess.Move.from_uci(move)
-    board.push(move_new)
-    mystr = board.fen()
-    mystr = mystr[:mystr.find(" ")]
-    mystr = re.sub(r"[/]", "", mystr)
-    for i in range(2,9,1):
-        stroke = ""
-        for j in range(i):
-            stroke += str(1)
-        mystr = re.sub(str(i), stroke, mystr)
-    moves.append(move)
+
+    depth = 1
+
+    if moveTotal % 2 == 1:
+        move_new = chess.Move.from_uci(move)
+        board.push(move_new)
+        mystr = board.fen()
+        mystr = mystr[:mystr.find(" ")]
+        mystr = re.sub(r"[/]", "", mystr)
+        for i in range(2,9,1):
+            stroke = ""
+            for j in range(i):
+                stroke += str(1)
+            mystr = re.sub(str(i), stroke, mystr)
+        moves.append(move)
+    else:
+        board_net = computerMove(board, depth)
+        move_net = str(board_net.peek())
+        mystr = board_net.fen()
+        mystr = mystr[:mystr.find(" ")]
+        mystr = re.sub(r"[/]", "", mystr)
+        for i in range(2, 9, 1):
+            stroke = ""
+            for j in range(i):
+                stroke += str(1)
+            mystr = re.sub(str(i), stroke, mystr)
+        moves.append(move_net)
     moveTotal = moveTotal + 1
-#   else:
-#       mystr = computerMove(board, depth).fen()
-#       mystr = mystr[:mystr.find(" ")]
-#       mystr = re.sub(r"[/]", "", mystr)
-#       for i in range(2, 9, 1):
-#           stroke = ""
-#           for j in range(i):
-#               stroke += str(1)
-#           mystr = re.sub(str(i), stroke, mystr)
-#   moveTotal = moveTotal + 1
     data = {
         "moves": moves,
         "moveTotal": moveTotal
