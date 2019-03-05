@@ -35,7 +35,7 @@ def index1(request, move):
             stroke += str(1)
         mystr = re.sub(str(i), stroke, mystr)
     moves.append(move)
-##   else:
+#   else:
 #       mystr = computerMove(board, depth).fen()
 #       mystr = mystr[:mystr.find(" ")]
 #       mystr = re.sub(r"[/]", "", mystr)
