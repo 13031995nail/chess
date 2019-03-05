@@ -19,7 +19,7 @@ def index(request):
 def index1(request, move):
     board = chess.Board()
 
-    with open("moves.json", "r") as read_file:
+    with open("hello/moves.json", "r") as read_file:
         moves = json.load(read_file)["moves"]
 
     for i in moves:
@@ -52,7 +52,7 @@ def index1(request, move):
     data = {
         "moves": moves
     }
-    with open("moves.json", "w") as write_file:
+    with open("hello/moves.json", "w") as write_file:
         json.dump(data, write_file)
     return render(request, "index.html", {'board': mystr, 'move': moves})
 
