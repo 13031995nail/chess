@@ -16,6 +16,7 @@ def index(request):
     return render(request, "index.html", {'board': 'rnbqkbnrpppppppp11111111111111111111111111111111PPPPPPPPRNBQKBNR'})
 
 def index1(request, move):
+    global moves
     board = chess.Board()
     for i in moves:
         move_star = chess.Move.from_uci(i)
