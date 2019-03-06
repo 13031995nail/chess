@@ -16,7 +16,7 @@ def index(request):
 def index1(request, move):
     HttpResponse(move)
 
-#    board = chess.Board()
+##    board = chess.Board()
 #
 #    with open("hello/moves.json", "r") as read_file:
 #        data = json.load(read_file)
